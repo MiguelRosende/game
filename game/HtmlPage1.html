@@ -16,38 +16,66 @@
                 this._ctx = ctx;
                 this.paint = function (event) {
                     ctx.clearRect(0, 0, 800, 500);
+                    ctx.fillRect(300, 400, 50, 70);
                 };
                 this.click = function (event) { };
             };
 
-            function sprite(ctx, color, offset) {
+            function sprite(ctx, color, offset, shape) {
                 this.color = color;
                 this._ctx = ctx;
                 this.direction = 1;
+                this.shape = shape;
                 this.position = { pageX : 0, pageY : 0 };
                 this.paint = function (event) {
                     ctx.fillStyle = this.color;
-                    if (this.direction == 1) {
-                        ctx.fillRect(this.position.pageX - 15 + offset, this.position.pageY - 37 + offset, 10, 10);
-                        ctx.fillRect(this.position.pageX - 15 + offset, this.position.pageY - 26 + offset, 10, 10);
-                        ctx.fillRect(this.position.pageX - 15 + offset, this.position.pageY - 15 + offset, 10, 10);
-                        ctx.fillRect(this.position.pageX - 15 + offset, this.position.pageY - 4 + offset, 10, 10);
-                        ctx.fillRect(this.position.pageX - 4 + offset, this.position.pageY - 4 + offset, 10, 10);
-                        ctx.fillRect(this.position.pageX + 7 + offset, this.position.pageY - 4 + offset, 10, 10);
-                    } else {
-                        ctx.fillRect(this.position.pageX - 4 + offset, this.position.pageY - 4 + offset, 10, 10);
-                        ctx.fillRect(this.position.pageX + 7 + offset, this.position.pageY - 4 + offset, 10, 10);
-                        ctx.fillRect(this.position.pageX + 18 + offset, this.position.pageY - 4 + offset, 10, 10);
-                        ctx.fillRect(this.position.pageX + 29 + offset, this.position.pageY - 4 + offset, 10, 10);
-                        ctx.fillRect(this.position.pageX + 29 + offset, this.position.pageY - 15 + offset, 10, 10);
-                        ctx.fillRect(this.position.pageX + 29 + offset, this.position.pageY - 26 + offset, 10, 10);
+                    for (sp in shape[this.direction]) {
+                        var s = shape[this.direction][sp];
+                        ctx.fillRect(this.position.pageX + s.x + offset, this.position.pageY + s.y + offset, s.w, s.h);
                     }
                 };
                 this.click = function (event) {
-                    if (this.direction == 1)
-                        this.direction = 0;
-                    else
-                        this.direction = 1;
+                    switch (this.direction) {
+                        case 1:
+                            this.direction = 0
+                            break;
+                        case 2: 
+                            this.direction = 1
+                            break;
+                        default:
+                            this.direction = 2
+                            break;
+                            
+                    }
+                };
+            };
+
+            function spritemirror(ctx, color, offset, shape) {
+                this.color = color;
+                this._ctx = ctx;
+                this.direction = 1;
+                this.shape = shape;
+                this.position = { pageX: 0, pageY: 0 };
+                this.paint = function (event) {
+                    ctx.fillStyle = this.color;
+                    for (sp in shape[this.direction]) {
+                        var s = shape[this.direction][sp];
+                        ctx.fillRect(ctx.canvas.width - this.position.pageX + s.x + offset, this.position.pageY + s.y + offset, s.w, s.h);
+                    }
+                };
+                this.click = function (event) {
+                    switch (this.direction) {
+                        case 1:
+                            this.direction = 0
+                            break;
+                        case 2: 
+                            this.direction = 1
+                            break;
+                        default:
+                            this.direction = 2
+                            break;
+                            
+                    }
                 };
             };
 
@@ -57,26 +85,44 @@
                 var player = document.getElementById("GameArea");
                 var ctx = player.getContext("2d");
                 var f  = new field(ctx);
-                var sp1 = new sprite(ctx, "#B0082", 0);
-                var sp2 = new sprite(ctx, "#4Be082", 30);
-                var sp3 = new sprite(ctx, "#4B0e82", 60);
+                var sp1 = new sprite(ctx, "#B0082", 0,
+                    [[{ x: -6, y: -6, w: 41, h: 10 },
+                      { x: 25, y: -27, w: 10, h: 21 }],
+                     [{ x: -15, y: -37, w: 10, h: 41 },
+                      { x: -6, y: -6, w: 21, h: 10  }],
+                     [{ x: 25, y: -27, w: 10, h: 41 },
+                      { x: 27, y: -27, w:-21, h: 10 }]]);
+                var sp2 = new spritemirror(ctx, "#4Be082", 30,
+                    [[{ x: -6, y: -6, w: 41, h: 10 },
+                      { x: 25, y: -27, w: 10, h: 21 }],
+                     [{ x: -15, y: -37, w: 10, h: 41 },
+                      { x: -6, y: -6, w: 21, h: 10  }],
+                     [{ x: 25, y: -27, w: 10, h: 41 },
+                      { x: 27, y: -27, w:-21, h: 10 }]]);
+                var sp3 = new sprite(ctx, "#4B0e82", 60,
+                    [[{ x: -6, y: -6, w: 41, h: 10 },
+                      { x: 25, y: -27, w: 10, h: 21 }],
+                     [{ x: -15, y: -37, w: 10, h: 41 },
+                      { x: -6, y: -6, w: 21, h: 10  }],
+                     [{ x: 25, y: -27, w: 10, h: 41 },
+                      { x: 27, y: -27, w:-21, h: 10 }]]);
 
-                var stack = [f, sp1, sp2, sp3];
+                var stage = [f, sp1, sp2, sp3];
                 
                 
                 $("#GameArea").mousemove(function (event) {
-                    for (s in stack) {
-                        stack[s].position = event;
+                    for (s in stage) {
+                        stage[s].position = event;
                     }
                 });
                 setInterval(function () {
-                    for (s in stack) {
-                        stack[s].paint();
+                    for (s in stage) {
+                        stage[s].paint();
                     }
                 }, 10);
                 $("#GameArea").click(function () {
-                    for (s in stack) {
-                        stack[s].click();
+                    for (s in stage) {
+                        stage[s].click();
                     }
                 });
             })
