@@ -11,31 +11,73 @@
         <canvas id="GameArea" height="500" width="800" style="border-style: dashed"></canvas>
         <script src="Scripts/jquery-1.10.2.js"></script>
         <script type="text/javascript">
-            $(document).ready(function(){
+
+            function field(ctx) {
+                this._ctx = ctx;
+                this.paint = function (event) {
+                    ctx.clearRect(0, 0, 800, 500);
+                };
+                this.click = function (event) { };
+            };
+
+            function sprite(ctx, color, offset) {
+                this.color = color;
+                this._ctx = ctx;
+                this.direction = 1;
+                this.position = { pageX : 0, pageY : 0 };
+                this.paint = function (event) {
+                    ctx.fillStyle = this.color;
+                    if (this.direction == 1) {
+                        ctx.fillRect(this.position.pageX - 15 + offset, this.position.pageY - 37 + offset, 10, 10);
+                        ctx.fillRect(this.position.pageX - 15 + offset, this.position.pageY - 26 + offset, 10, 10);
+                        ctx.fillRect(this.position.pageX - 15 + offset, this.position.pageY - 15 + offset, 10, 10);
+                        ctx.fillRect(this.position.pageX - 15 + offset, this.position.pageY - 4 + offset, 10, 10);
+                        ctx.fillRect(this.position.pageX - 4 + offset, this.position.pageY - 4 + offset, 10, 10);
+                        ctx.fillRect(this.position.pageX + 7 + offset, this.position.pageY - 4 + offset, 10, 10);
+                    } else {
+                        ctx.fillRect(this.position.pageX - 4 + offset, this.position.pageY - 4 + offset, 10, 10);
+                        ctx.fillRect(this.position.pageX + 7 + offset, this.position.pageY - 4 + offset, 10, 10);
+                        ctx.fillRect(this.position.pageX + 18 + offset, this.position.pageY - 4 + offset, 10, 10);
+                        ctx.fillRect(this.position.pageX + 29 + offset, this.position.pageY - 4 + offset, 10, 10);
+                        ctx.fillRect(this.position.pageX + 29 + offset, this.position.pageY - 15 + offset, 10, 10);
+                        ctx.fillRect(this.position.pageX + 29 + offset, this.position.pageY - 26 + offset, 10, 10);
+                    }
+                };
+                this.click = function (event) {
+                    if (this.direction == 1)
+                        this.direction = 0;
+                    else
+                        this.direction = 1;
+                };
+            };
+
+            $(document).ready(function() {
                 //cuando el mouse entra en el gamearea el cubo se posiciona debajo de él
                 //el cuadrado tiene que borrarse una vez que se mueve el puntero
                 var player = document.getElementById("GameArea");
                 var ctx = player.getContext("2d");
+                var f  = new field(ctx);
+                var sp1 = new sprite(ctx, "#B0082", 0);
+                var sp2 = new sprite(ctx, "#4Be082", 30);
+                var sp3 = new sprite(ctx, "#4B0e82", 60);
 
+                var stack = [f, sp1, sp2, sp3];
                 
-                var stack = [];
+                
                 $("#GameArea").mousemove(function (event) {
-                    ctx.clearRect(0, 0, 800, 500);
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX - 15, event.pageY - 37, 10, 10));
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX - 15, event.pageY - 26, 10, 10));
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX - 15, event.pageY - 15, 10, 10));
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX - 15, event.pageY - 4, 10, 10));
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX - 4, event.pageY - 4, 10, 10));
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX + 7, event.pageY - 4, 10, 10));
+                    for (s in stack) {
+                        stack[s].position = event;
+                    }
                 });
-                $("#GameArea").click(function (event) {
-                    ctx.clearRect(0, 0, 800, 500);
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX - 4, event.pageY - 4, 10, 10));
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX + 7, event.pageY - 4, 10, 10));
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX + 18, event.pageY - 4, 10, 10));
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX + 29, event.pageY - 4, 10, 10));
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX + 29, event.pageY - 15, 10, 10));
-                    $(stack).pushStack(ctx.fillStyle = "#4B0082", ctx.fillRect(event.pageX + 29, event.pageY - 26, 10, 10));
+                setInterval(function () {
+                    for (s in stack) {
+                        stack[s].paint();
+                    }
+                }, 10);
+                $("#GameArea").click(function () {
+                    for (s in stack) {
+                        stack[s].click();
+                    }
                 });
             })
         </script>
