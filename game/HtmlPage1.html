@@ -8,26 +8,25 @@
         <button id="newG">New Game</button>
     </div>
     <div>
-        <canvas id="GameArea" height="500" width="800" style="border-style: dashed"></canvas>
+        <canvas id="GameArea" height="600" width="500" style="border-style: dashed"></canvas>
         <script src="Scripts/jquery-1.10.2.js"></script>
         <script type="text/javascript">
 
             function field(ctx) {
                 this._ctx = ctx;
-                this.paint = function (event) {
-                    ctx.clearRect(0, 0, 800, 500);
-                    ctx.fillRect(300, 400, 50, 70);
+                this.render = function (event) {
+                    ctx.clearRect(0, 0, 500, 600);
                 };
                 this.click = function (event) { };
             };
 
-            function sprite(ctx, color, offset, shape) {
+            function Ele(ctx, color, offset, shape) {
                 this.color = color;
                 this._ctx = ctx;
                 this.direction = 1;
                 this.shape = shape;
                 this.position = { pageX : 0, pageY : 0 };
-                this.paint = function (event) {
+                this.render = function (event) {
                     ctx.fillStyle = this.color;
                     for (sp in shape[this.direction]) {
                         var s = shape[this.direction][sp];
@@ -42,12 +41,31 @@
                         case 2: 
                             this.direction = 1
                             break;
-                        default:
+                        case 3:
                             this.direction = 2
+                            break;
+                        default:
+                            this.direction = 3
                             break;
                             
                     }
                 };
+            };
+            //no funciona
+            function cuadrado(ctx, color, offset, shape) {
+                this.color = color;
+                this._ctx = ctx;
+                this.shape = shape;
+                this.position = { pageX: 0, pageY: 0 };
+                this.render = function (event) {
+                    ctx.fillStyle = this.color;
+                    for (sp in shape) {
+                        var s = shape[sp];
+                        ctx.fillRect(this.position.pageX + s.x + offset, this.position.pageY + s.y + offset, s.w, s.h);
+                    }
+
+                };
+
             };
 
             function spritemirror(ctx, color, offset, shape) {
@@ -56,7 +74,7 @@
                 this.direction = 1;
                 this.shape = shape;
                 this.position = { pageX: 0, pageY: 0 };
-                this.paint = function (event) {
+                this.render = function (event) {
                     ctx.fillStyle = this.color;
                     for (sp in shape[this.direction]) {
                         var s = shape[this.direction][sp];
@@ -71,43 +89,78 @@
                         case 2: 
                             this.direction = 1
                             break;
-                        default:
+                        case 3:
                             this.direction = 2
+                            break;
+                        default:
+                            this.direction = 3
                             break;
                             
                     }
                 };
             };
 
+            //cuando el sprite llega a ciertas coordenadas este queda atado a esa posición y el sprite movil
+            //es reemplazado por otro
+
             $(document).ready(function() {
-                //cuando el mouse entra en el gamearea el cubo se posiciona debajo de él
-                //el cuadrado tiene que borrarse una vez que se mueve el puntero
                 var player = document.getElementById("GameArea");
                 var ctx = player.getContext("2d");
                 var f  = new field(ctx);
-                var sp1 = new sprite(ctx, "#B0082", 0,
+                var sp1 = new Ele(ctx, "#B0082", 0,
                     [[{ x: -6, y: -6, w: 41, h: 10 },
                       { x: 25, y: -27, w: 10, h: 21 }],
-                     [{ x: -15, y: -37, w: 10, h: 41 },
-                      { x: -6, y: -6, w: 21, h: 10  }],
-                     [{ x: 25, y: -27, w: 10, h: 41 },
-                      { x: 27, y: -27, w:-21, h: 10 }]]);
+                     [{ x:-15, y: -37, w: 10, h: 41 },
+                      { x: -6, y: -6, w: 21, h: 10 }],
+                     [{ x:-14, y:-35, w: 41, h: 10 },
+                      { x:-14, y:-25, w: 10, h: 21 }],
+                     [{ x: 25, y:-37, w: 10, h: 41 },
+                      { x: 25, y:-37, w:-21, h: 10 }]]);
                 var sp2 = new spritemirror(ctx, "#4Be082", 30,
                     [[{ x: -6, y: -6, w: 41, h: 10 },
-                      { x: 25, y: -27, w: 10, h: 21 }],
-                     [{ x: -15, y: -37, w: 10, h: 41 },
-                      { x: -6, y: -6, w: 21, h: 10  }],
-                     [{ x: 25, y: -27, w: 10, h: 41 },
-                      { x: 27, y: -27, w:-21, h: 10 }]]);
-                var sp3 = new sprite(ctx, "#4B0e82", 60,
+                      { x: 25, y:-27, w: 10, h: 21 }],
+                     [{ x:-15, y:-37, w: 10, h: 41 },
+                      { x: -6, y: -6, w: 21, h: 10 }],
+                     [{ x:-14, y:-35, w: 41, h: 10 },
+                      { x:-14, y:-25, w: 10, h: 21 }],
+                     [{ x: 25, y:-37, w: 10, h: 41 },
+                      { x: 25, y:-37, w:-21, h: 10 }]]);
+                var sp3 = new Ele(ctx, "#4B0e82", 60,
                     [[{ x: -6, y: -6, w: 41, h: 10 },
-                      { x: 25, y: -27, w: 10, h: 21 }],
+                      { x: 25, y:-27, w: 10, h: 21 }],
+                     [{ x:-15, y:-37, w: 10, h: 41 },
+                      { x: -6, y: -6, w: 21, h: 10 }],
+                     [{ x:-14, y:-35, w: 41, h: 10 },
+                      { x:-14, y:-25, w: 10, h: 21 }],
+                     [{ x: 25, y:-37, w: 10, h: 41 },
+                      { x: 25, y: -37, w: -21, h: 10 }]]);
+                //hacer que este sprite sea uno solo que no varia, no sé hacerlo sin meterlo en un array
+                //cambiar Ele por cuadrado
+                var cuadrado = new Ele(ctx, "green", 0,
+                    [[{ x:-6, y:-6, w: 41, h: 20.5 },
+                      { x:-6, y:14, w: 41, h: 20.5 }],
+                     [{ x:-6, y:-6, w: 41, h: 20.5 },
+                      { x: -6, y: 14, w: 41, h: 20.5 }],
+                     [{ x:-6, y:-6, w: 41, h: 20.5 },
+                      { x: -6, y: 14, w: 41, h: 20.5 }],
+                     [{ x:-6, y:-6, w: 41, h: 20.5 },
+                      { x: -6, y: 14, w: 41, h: 20.5 }]]);
+                var eleInversa = new Ele (ctx, "red", 90,
+                    [[{ x:-43, y: -6, w:  41, h: 10 },
+                      { x:-43, y: -27, w: 10, h: 21 }],
                      [{ x: -15, y: -37, w: 10, h: 41 },
-                      { x: -6, y: -6, w: 21, h: 10  }],
-                     [{ x: 25, y: -27, w: 10, h: 41 },
-                      { x: 27, y: -27, w:-21, h: 10 }]]);
+                      { x: -15, y: -6, w: -21, h: 10 }],
+                     [{ x: -43, y: -37, w: 41, h: 10 },
+                      { x: -12, y: -30, w: 10, h: 21 }],
+                     [{ x:-43, y: -37, w: 10, h: 41 },
+                      { x: -35, y: -37, w: 21, h: 10 }]]);
+                var palo = new Ele(ctx, "purple", 110, 
+                    [[{ x:-6,  y: 15, w: 61, h: 10 }],
+                     [{ x:-15, y:-37, w: 10, h: 61 }],
+                     [{ x: -6, y: 15, w: 61, h: 10 }],
+                     [{ x: -15,y:-37, w: 10, h: 61 }]]);
 
-                var stage = [f, sp1, sp2, sp3];
+                var stage = [f, sp1, sp2, sp3, cuadrado, eleInversa, palo];
                 
                 
                 $("#GameArea").mousemove(function (event) {
@@ -117,7 +170,7 @@
                 });
                 setInterval(function () {
                     for (s in stage) {
-                        stage[s].paint();
+                        stage[s].render();
                     }
                 }, 10);
                 $("#GameArea").click(function () {
