@@ -13,87 +13,101 @@
         <script type="text/javascript">
 
             function field(ctx) {
-                this._ctx = ctx;
+                this.context = ctx;
                 this.render = function (event) {
-                    ctx.clearRect(0, 0, 500, 600);
+                    this.context.clearRect(0, 0, 500, 600);
                 };
                 this.click = function (event) { };
             };
 
-            function Ele(ctx, color, offset, shape) {
+            function Ele(ctx, color, offsetXY, shape) {
                 this.color = color;
-                this._ctx = ctx;
-                this.direction = 1;
+                this.context = ctx;
+                this.direction = 0;
                 this.shape = shape;
                 this.position = { pageX : 0, pageY : 0 };
                 this.render = function (event) {
-                    ctx.fillStyle = this.color;
-                    for (sp in shape[this.direction]) {
-                        var s = shape[this.direction][sp];
-                        ctx.fillRect(this.position.pageX + s.x + offset, this.position.pageY + s.y + offset, s.w, s.h);
-                    }
+                    this.context.fillStyle = this.color;
+                    for (sp in this.shape[this.direction]) {
+                        var s = this.shape[this.direction][sp];
+                        this.context.fillRect(this.position.pageX + s.x + offsetXY, this.position.pageY + s.y + offsetXY, s.w, s.h);
+                    }   
                 };
                 this.click = function (event) {
                     switch (this.direction) {
-                        case 1:
-                            this.direction = 0
-                            break;
-                        case 2: 
+                        case 0:
                             this.direction = 1
                             break;
-                        case 3:
+                        case 1: 
                             this.direction = 2
                             break;
-                        default:
+                        case 2:
                             this.direction = 3
+                            break;
+                        default:
+                            this.direction = 0
                             break;
                             
                     }
                 };
             };
-            //no funciona
-            function cuadrado(ctx, color, offset, shape) {
+
+            function independentsprite(ctx, color, shape, startxy, initialspeed) {
+                this.context = ctx;
                 this.color = color;
-                this._ctx = ctx;
+                this.shape = shape;
+                this.currentxy = startxy;
+                this.speed = initialspeed;
+                this.render = function (event) {
+                    this.context.fillStyle = this.color;
+                    this.context.fillRect(this.shape);
+                    this.currentxy + this.speed;
+                }
+            }
+
+            //no funciona
+            function cuadrado(ctx, color, offsetXY, shape) {
+                this.color = color;
+                this.context = ctx;
                 this.shape = shape;
                 this.position = { pageX: 0, pageY: 0 };
                 this.render = function (event) {
-                    ctx.fillStyle = this.color;
-                    for (sp in shape) {
-                        var s = shape[sp];
-                        ctx.fillRect(this.position.pageX + s.x + offset, this.position.pageY + s.y + offset, s.w, s.h);
+                    this.context.fillStyle = this.color;
+                    for (sp in this.shape) {
+                        var s = this.shape[sp];
+                        this.context.fillRect(this.position.pageX + s.x + offsetXY, this.position.pageY + s.y + offsetXY, s.w, s.h);
                     }
 
                 };
 
             };
 
-            function spritemirror(ctx, color, offset, shape) {
+            function spritemirror(ctx, color, offsetXY, shape) {
                 this.color = color;
-                this._ctx = ctx;
-                this.direction = 1;
+                this.context = ctx;
+                this.direction = 0;
                 this.shape = shape;
                 this.position = { pageX: 0, pageY: 0 };
                 this.render = function (event) {
-                    ctx.fillStyle = this.color;
-                    for (sp in shape[this.direction]) {
-                        var s = shape[this.direction][sp];
-                        ctx.fillRect(ctx.canvas.width - this.position.pageX + s.x + offset, this.position.pageY + s.y + offset, s.w, s.h);
+                    this.context.fillStyle = this.color;
+                    for (sp in this.shape[this.direction]) {
+                        var s = this.shape[this.direction][sp];
+                        this.context.fillRect(this.context.canvas.width - this.position.pageX + s.x + offsetXY, this.position.pageY + s.y + offsetXY, s.w, s.h);
                     }
                 };
                 this.click = function (event) {
                     switch (this.direction) {
-                        case 1:
-                            this.direction = 0
-                            break;
-                        case 2: 
+                        case 0:
                             this.direction = 1
                             break;
-                        case 3:
+                        case 1: 
                             this.direction = 2
                             break;
-                        default:
+                        case 2:
                             this.direction = 3
+                            break;
+                        default:
+                            this.direction = 0
                             break;
                             
                     }
@@ -108,32 +122,32 @@
                 var ctx = player.getContext("2d");
                 var f  = new field(ctx);
                 var sp1 = new Ele(ctx, "#B0082", 0,
-                    [[{ x: -6, y: -6, w: 41, h: 10 },
+                    [[{ x:-15, y: -37, w: 10, h: 41 },
+                      { x: -6, y: -6, w: 21, h: 10 }],
+                     [{ x: -6, y: -6, w: 41, h: 10 },
                       { x: 25, y: -27, w: 10, h: 21 }],
-                     [{ x:-15, y: -37, w: 10, h: 41 },
-                      { x: -6, y: -6, w: 21, h: 10 }],
-                     [{ x:-14, y:-35, w: 41, h: 10 },
-                      { x:-14, y:-25, w: 10, h: 21 }],
-                     [{ x: 25, y:-37, w: 10, h: 41 },
-                      { x: 25, y:-37, w:-21, h: 10 }]]);
+                     [{ x: 25, y: -37, w: 10, h: 41 },
+                      { x: 25, y: -37, w: -21, h: 10 }],
+                     [{ x:-15, y:-37, w: 41, h: 10 },
+                      { x:-15, y:-27, w: 10, h: 21 }]]);
                 var sp2 = new spritemirror(ctx, "#4Be082", 30,
-                    [[{ x: -6, y: -6, w: 41, h: 10 },
-                      { x: 25, y:-27, w: 10, h: 21 }],
-                     [{ x:-15, y:-37, w: 10, h: 41 },
+                    [[{ x: -15, y: -37, w: 10, h: 41 },
                       { x: -6, y: -6, w: 21, h: 10 }],
-                     [{ x:-14, y:-35, w: 41, h: 10 },
-                      { x:-14, y:-25, w: 10, h: 21 }],
-                     [{ x: 25, y:-37, w: 10, h: 41 },
-                      { x: 25, y:-37, w:-21, h: 10 }]]);
+                     [{ x: -6, y: -6, w: 41, h: 10 },
+                      { x: 25, y: -27, w: 10, h: 21 }],
+                     [{ x: 25, y: -37, w: 10, h: 41 },
+                      { x: 25, y: -37, w: -21, h: 10 }],
+                     [{ x: -15, y: -37, w: 41, h: 10 },
+                      { x: -15, y: -27, w: 10, h: 21 }]]);
                 var sp3 = new Ele(ctx, "#4B0e82", 60,
-                    [[{ x: -6, y: -6, w: 41, h: 10 },
-                      { x: 25, y:-27, w: 10, h: 21 }],
-                     [{ x:-15, y:-37, w: 10, h: 41 },
+                    [[{ x: -15, y: -37, w: 10, h: 41 },
                       { x: -6, y: -6, w: 21, h: 10 }],
-                     [{ x:-14, y:-35, w: 41, h: 10 },
-                      { x:-14, y:-25, w: 10, h: 21 }],
-                     [{ x: 25, y:-37, w: 10, h: 41 },
-                      { x: 25, y: -37, w: -21, h: 10 }]]);
+                     [{ x: -6, y: -6, w: 41, h: 10 },
+                      { x: 25, y: -27, w: 10, h: 21 }],
+                     [{ x: 25, y: -37, w: 10, h: 41 },
+                      { x: 25, y: -37, w: -21, h: 10 }],
+                     [{ x: -15, y: -37, w: 41, h: 10 },
+                      { x: -15, y: -27, w: 10, h: 21 }]]);
                 //hacer que este sprite sea uno solo que no varia, no sé hacerlo sin meterlo en un array
                 //cambiar Ele por cuadrado
                 var cuadrado = new Ele(ctx, "green", 0,
@@ -146,21 +160,22 @@
                      [{ x:-6, y:-6, w: 41, h: 20.5 },
                       { x: -6, y: 14, w: 41, h: 20.5 }]]);
                 var eleInversa = new Ele (ctx, "red", 90,
-                    [[{ x:-43, y: -6, w:  41, h: 10 },
-                      { x:-43, y: -27, w: 10, h: 21 }],
-                     [{ x: -15, y: -37, w: 10, h: 41 },
+                    [[{ x: -15, y: -37, w: 10, h: 41 },
                       { x: -15, y: -6, w: -21, h: 10 }],
                      [{ x: -43, y: -37, w: 41, h: 10 },
-                      { x: -12, y: -30, w: 10, h: 21 }],
+                      { x: -12, y: -30, w: 10, h: 21 }],                     
                      [{ x:-43, y: -37, w: 10, h: 41 },
-                      { x: -35, y: -37, w: 21, h: 10 }]]);
+                      { x: -35, y: -37, w: 21, h: 10 }],
+                     [{ x: -43, y: -6, w: 41, h: 10 },
+                      { x: -43, y: -27, w: 10, h: 21 }]]);
                 var palo = new Ele(ctx, "purple", 110, 
-                    [[{ x:-6,  y: 15, w: 61, h: 10 }],
-                     [{ x:-15, y:-37, w: 10, h: 61 }],
+                    [[{ x: -15, y: -37, w: 10, h: 61 }],
                      [{ x: -6, y: 15, w: 61, h: 10 }],
-                     [{ x: -15,y:-37, w: 10, h: 61 }]]);
+                     [{ x: -15, y: -37, w: 10, h: 61 }],
+                     [{ x: -6, y: 15, w: 61, h: 10 }]]);
+                var bullet = new independentsprite(ctx, "red", { h: 20, w: 40 }, { x: 50, y: 200 }, { x: 20, y: 0 });
 
-                var stage = [f, sp1, sp2, sp3, cuadrado, eleInversa, palo];
+                var stage = [f, sp1, sp2, sp3, eleInversa, palo, bullet];
                 
                 
                 $("#GameArea").mousemove(function (event) {
