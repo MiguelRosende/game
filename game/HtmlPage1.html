@@ -61,19 +61,50 @@
                 this.speed = initialspeed;
                 this.render = function (event) {
                     this.context.fillStyle = this.color;
-                    this.context.fillRect(startxy.x, startxy.y, shape.w, shape.h);
+                    this.context.fill();
+                    this.context.beginPath();
+                    this.context.arc(startxy.x, startxy.y, shape.r, shape.s, shape.e);
                     switch (this.flag) {
                         case 0:
                             this.flag = 1;
                             startxy.x++;
+                            startxy.y--;
                             break;
                         case 1:
                             this.flag = 1;
                             startxy.x--;
+                            startxy.y++;
                             break;
                     }
-                }
-            }
+                };
+            };
+
+            function independentspritetwo(ctx, color, shape, startxy, initialspeed) {
+                this.context = ctx;
+                this.color = color;
+                this.shape = shape;
+                this.flag = 0;
+                this.currentxy = startxy;
+                this.speed = initialspeed;
+                this.render = function (event) {
+                    this.context.fillStyle = this.color;
+                    this.context.fill();
+                    this.context.beginPath();
+                    this.context.arc(startxy.x, startxy.y, shape.r, shape.s, shape.e);
+                    switch (this.flag) {
+                        case 0:
+                            this.flag = 1;
+                            startxy.x--;
+                            startxy.y--;
+                            break;
+                        case 1:
+                            this.flag = 1;
+                            startxy.x++;
+                            startxy.y++;
+                            break;
+                    }
+                };
+            };
 
             //no funciona
             function cuadrado(ctx, color, offsetXY, shape) {
@@ -131,7 +162,7 @@
                 var player = document.getElementById("GameArea");
                 var ctx = player.getContext("2d");
                 var f  = new field(ctx);
-                var sp1 = new Ele(ctx, "#B0082", 0,
+                var sp1 = new Ele(ctx, "violet", 0,
                     [[{ x:-15, y: -37, w: 10, h: 41 },
                       { x: -6, y: -6, w: 21, h: 10 }],
                      [{ x: -6, y: -6, w: 41, h: 10 },
@@ -183,9 +214,10 @@
                      [{ x: -6, y: 15, w: 61, h: 10 }],
                      [{ x: -15, y: -37, w: 10, h: 61 }],
                      [{ x: -6, y: 15, w: 61, h: 10 }]]);
-                var bullet = new independentsprite(ctx, "red", { h: 20, w: 40 }, { x: 540, y: 200 }, { x: 20, y: 0 });
+                var bullet = new independentsprite(ctx, "black", { r: 10, s: 0, e: 2 * Math.PI }, { x: 540, y: 200 }, { x: 20, y: 0 });
+                var bullettwo = new independentspritetwo(ctx, "blue", { r: 20, s: 0, e: 2 * Math.PI }, { x: 0, y: 100 }, { x: 20, y: 0 });
 
-                var stage = [f, sp1, sp2, sp3, eleInversa, palo, bullet];
+                var stage = [f, sp1, sp2, sp3, eleInversa, palo, bullet, bullettwo];
                 
                 
                 $("#GameArea").mousemove(function (event) {
@@ -198,47 +230,47 @@
                     for (s in stage) {
                         stage[s].position = event;
                     }
-                    shape.x = shapeX;
-                    shape.y = shapeY;
+                    PageX = 0;
+                    PageY = 0;
                     var flag = 0;
 
                     switch (event.keyCode) {
     
                         // Left arrow.
                         case 37:
-                            shapeX = shapeX - 20;
-                            if (shapeX < 0) {
-                                shapeX = 0;
+                            PageX = PageX - 20;
+                            if (PageX < 0) {
+                                PageX = 0;
                                 flag = 1;
                             }
                             break;
     
                             // Right arrow.
                         case 39:
-                            shapeX = shapeX + 20;
-                            if (shapeX > 500) {
+                            PageX = PageX + 20;
+                            if (PageX > 500) {
                                 // If at edge, reset ship position and set flag.
-                                shapeX = 500;
+                                PageX = 500;
                                 flag = 1;
                             }
                             break;
     
                             // Down arrow
                         case 40:
-                            shapeY = shapeY + 20;
-                            if (shapeY > 600) {
+                            PageY = PageY + 20;
+                            if (PageY > 600) {
                                 // If at edge, reset ship position and set flag.
-                                shapeY = 600;
+                                PageY = 600;
                                 flag = 1;
                             }
                             break;
     
                             // Up arrow 
                         case 38:
-                            shapeY = shapeY - 20;
-                            if (shapeY < 0) {
+                            PageY = PageY - 20;
+                            if (PageY < 0) {
                                 // If at edge, reset ship position and set flag.
-                                shapeY = 0;
+                                PageY = 0;
                                 flag = 1;
                             }
                             break;
@@ -248,7 +280,7 @@
                             flag = 1;
                             alert("Please only use the arrow keys.");
 
-                });*/
+                }});*/
 
 
                 //mover las piezas con flechas, cada case es una flecha
@@ -257,22 +289,15 @@
     
                     // Flag to put variables back if we hit an edge of the board.
                     var flag = 0;
-
-                    function spritepos (event) {
-                        for (s in stage) {
-                            stage[s].position = event;
-                        }    
-                    } 
-    
                     // Get where the ship was before key process.
-                    oldShapeX = shapeX;
-                    oldShapeY = shapeY;
+                    oldShapeX = PageX;
+                    oldShapeY = PageY;
     
                     switch (event.keyCode) {
     
                         // Left arrow.
                         case 37:
-                            shapeX = shapeX - 20;
+                            PageX = PageX - 20;
                             if (shipX < 0) {
                                 shipX = 0;
                                 flag = 1;
@@ -281,30 +306,30 @@
     
                             // Right arrow.
                         case 39:
-                            shapeX = shapeX + 20;
-                            if (shapeX > 500) {
+                            PageX = PageX + 20;
+                            if (PageX > 500) {
                                 // If at edge, reset ship position and set flag.
-                                shapeX = 500;
+                                PageX = 500;
                                 flag = 1;
                             }
                             break;
     
                             // Down arrow
                         case 40:
-                            shapeY = shapeY + 20;
-                            if (shapeY > 600) {
+                            PageY = PageY + 20;
+                            if (PageY > 600) {
                                 // If at edge, reset ship position and set flag.
-                                shapeY = 600;
+                                PageY = 600;
                                 flag = 1;
                             }
                             break;
     
                             // Up arrow 
                         case 38:
-                            shapeY = shapeY - 20;
-                            if (shapeY < 0) {
+                            PageY = PageY - 20;
+                            if (PageY < 0) {
                                 // If at edge, reset ship position and set flag.
-                                shapeY = 0;
+                                PageY = 0;
                                 flag = 1;
                             }
                             break;

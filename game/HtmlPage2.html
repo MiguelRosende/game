@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <canvas id="game" width="600" height="600" style="border-style:groove"></canvas>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+
+        function rendercontext(ctx) {
+            this.context = ctx;
+            this.render = function (event) {
+                this.context.clearRect(0, 0, 600, 600);
+            };
+        };
+
+        function isprite(ctx, color, shape, startxy) {
+            this.context = ctx;
+            this.color = color;
+            this.shape = shape;
+            this.currentxy = startxy;
+            this.flag = 0;
+            this.render = function (event) {
+                this.context.fillStyle = this.color;
+                this.context.fillRect(this.currentxy.x, this.currentxy.y, this.shape.w, this.shape.h);
+                switch (this.flag) {
+                    case 0:
+                        this.flag = 1;
+                        this.currentxy.x++;
+                        break;
+                    case 1:
+                        this.flag = 1;
+                        this.currentxy.x--;
+                        break;
+                };
+             };
+        };
+
+        function circle(ctx, color, shape, startxy) {
+            this.context = ctx;
+            this.color = color;
+            this.shape = shape;
+            this.currentxy = startxy;
+            this.flag = 0;
+            this.render = function (event) {
+                this.context.beginPath();
+                this.context.arc(this.currentxy.x, this.currentxy.y, this.shape.r, this.shape.s, this.shape.e);
+                this.context.fillStyle = this.color;
+                this.context.fill();
+                if (this.currentxy.y < 0) {
+                    this.currentxy.x++;
+                }
+                else {
+                    this.currentxy.y--;
+                };
+            };
+        };
+
+        $(document).ready(function(){         
+                var g = document.getElementById("game");
+                var ctx = g.getContext("2d");
+                var rc = new rendercontext(ctx);
+                var bullet = new isprite(ctx, "black", { h: 20, w: 40 }, { x: 610, y: 350 });
+                var cannon = new circle(ctx, "red", { r: 30, s: 0, e: 2 * Math.PI }, { x: 300, y: 600 });
+                var cannon2 = new circle(ctx, "brown", { r: 20, s: 0, e: 1 * Math.PI }, {x: 100, y: 600} );
+                
+
+                var stage = [rc, bullet, cannon, cannon2];
+
+            setInterval(function () {
+                for (s in stage) {
+                    stage[s].render();
+                }
+            }, 10);
+        });
+    </script>
+</body>
+</html>
