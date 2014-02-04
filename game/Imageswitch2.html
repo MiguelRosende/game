@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script>
+
+        var sprite[];
+        sprite[0]= "http://static3.wikia.nocookie.net/__cb20130731032643/danganronpa/images/c/cf/Mioda.png";
+        sprite[1] = "http://static4.wikia.nocookie.net/__cb20130731032644/danganronpa/images/5/53/Mioda_%283%29.png";
+        sprite[2] = "http://static2.wikia.nocookie.net/__cb20130731032643/danganronpa/images/f/ff/Mioda_%282%29.png";
+        sprites = document.getElementById("Sprite");
+        function switchImage() {
+            switch (sprite) {
+                case 1:
+                    sprites.src = sprite[1];
+                    break;
+                case 2:
+                    sprites.src = sprite[2];
+                    break;
+                default:
+                    sprites.src = sprite[0];
+                    break;
+            }
+        };        
+    </script>
+
+    <img src="http://static3.wikia.nocookie.net/__cb20130731032643/danganronpa/images/c/cf/Mioda.png" id="Sprite" onclick="switchImage()" />
+</body>
+</html>
+

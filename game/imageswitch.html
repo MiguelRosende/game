@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script>
+        function switchImage() {
+            sprites = document.getElementById("Sprite");
+            if (sprites.src.match("http://static3.wikia.nocookie.net/__cb20130731032643/danganronpa/images/c/cf/Mioda.png")) {
+                sprites.src = "http://static4.wikia.nocookie.net/__cb20130731032644/danganronpa/images/5/53/Mioda_%283%29.png";
+            }
+            else if (sprites.src.match("http://static4.wikia.nocookie.net/__cb20130731032644/danganronpa/images/5/53/Mioda_%283%29.png"))
+            {
+                sprites.src = "http://static2.wikia.nocookie.net/__cb20130731032643/danganronpa/images/f/ff/Mioda_%282%29.png";
+            }
+            else if (sprites.src.match("http://static2.wikia.nocookie.net/__cb20130731032643/danganronpa/images/f/ff/Mioda_%282%29.png")) {
+                sprites.src = "http://static1.wikia.nocookie.net/__cb20130731032645/danganronpa/images/d/d3/Mioda_%288%29.png";
+            }
+            else if (sprites.src.match("http://static1.wikia.nocookie.net/__cb20130731032645/danganronpa/images/d/d3/Mioda_%288%29.png")) {
+                sprites.src = "http://static1.wikia.nocookie.net/__cb20130731032645/danganronpa/images/9/93/Mioda_%287%29.png";
+            }
+            else if (sprites.src.match("http://static1.wikia.nocookie.net/__cb20130731032645/danganronpa/images/9/93/Mioda_%287%29.png")) {
+                sprites.src = "http://static3.wikia.nocookie.net/__cb20130731032646/danganronpa/images/9/93/Mioda_%2810%29.png";
+            }
+            else if (sprites.src.match("http://static3.wikia.nocookie.net/__cb20130731032646/danganronpa/images/9/93/Mioda_%2810%29.png")) {
+                sprites.src = "http://static4.wikia.nocookie.net/__cb20130731032741/danganronpa/images/1/17/Mioda_%2814%29.png";
+            }
+            else {
+                sprites.src = "http://static3.wikia.nocookie.net/__cb20130731032643/danganronpa/images/c/cf/Mioda.png";
+            }
+        }
+    </script>
+
+    <img src="http://static3.wikia.nocookie.net/__cb20130731032643/danganronpa/images/c/cf/Mioda.png" id="Sprite" onclick="switchImage()" />
+</body>
+</html>
+

@@ -59,14 +59,21 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Collage.html" />
     <Content Include="collision game sample.html" />
+    <Content Include="gameengine.js" />
+    <Content Include="html5logo.html" />
     <Content Include="HtmlPage1.html" />
     <Content Include="HtmlPage2.html" />
     <Content Include="HtmlPage3.html" />
+    <Content Include="imageswitch.html" />
+    <Content Include="Imageswitch2.html" />
+    <Content Include="logofulljs.html" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Spritesfunc.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
