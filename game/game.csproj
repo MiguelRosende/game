@@ -61,6 +61,7 @@
   <ItemGroup>
     <Content Include="Collage.html" />
     <Content Include="collision game sample.html" />
+    <Content Include="Spritesfunc_test.js" />
     <Content Include="gameengine.js" />
     <Content Include="html5logo.html" />
     <Content Include="HtmlPage1.html" />
