@@ -24,6 +24,7 @@
                     Robot.frameHeight = 150;
                     Robot.frames = 10;
                     Robot.offsetY = 0;
+                    Robot.timers = [];
 
                     Robot.animate();
 
@@ -43,16 +44,16 @@
 
                     Robot.div.style.backgroundPosition =
                         "0 " + Robot.offsetY + "px";
-                    Robot.timer = setTimeout(Robot.animate, 75);
                 },
 
                 clickStart: function () {
-                    Robot.timer = setTimeout(Robot.animate, 75);
+                    Robot.timer = setInterval(Robot.animate, 75);
+                    Robot.timers.push(Robot.timer);
                 },
 
                 clickStop: function () {
-                    if (Robot.timer) {
-                        clearTimeout(Robot.timer);
+                    if (Robot.timers.length > 0) {
+                        clearInterval(Robot.timers.pop(), 75);
                     }
                 },
             };

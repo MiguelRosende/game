@@ -62,10 +62,12 @@
     <Content Include="Accordion.html" />
     <Content Include="animation.html" />
     <Content Include="ball.html" />
+    <Content Include="ball.png" />
     <Content Include="bouncevid.html" />
     <Content Include="Collage.html" />
     <Content Include="collision game sample.html" />
     <Content Include="CollageJS.html" />
+    <Content Include="animatedAccordion.html" />
     <Content Include="robot.jpg" />
     <Content Include="soccerball.png" />
     <Content Include="StripyTablesjsc.html" />
