@@ -9,14 +9,6 @@
         }
 
     </style>
-    <title></title>
-</head>
-<body>
-    <canvas id="canvas" width="600" height="400"></canvas>
-    <button onclick="saveasimage()">Open window with image (which you can save into image file)</button>
-    <br />
-    <button onclick="removeobj()">Remove last object moved</button>
-    <script src="Scripts/jquery-1.10.2.js"></script>
     <script type="text/javascript">
 
         //no se estan mostrando las imágenes
@@ -183,12 +175,12 @@
             var mx;
             var my;
             if (ev.layerX || ev.layerX == 0) {
-                    mx = ev.layerX;
-                    my = ev.layerY;
-                }else if (ev.offsetX || ev.offsetX == 0) {
-                    mx = ev.offsetX;
-                    my = ev.offsetY;
-                }
+                mx = ev.layerX;
+                my = ev.layerY;
+            }else if (ev.offsetX || ev.offsetX == 0) {
+                mx = ev.offsetX;
+                my = ev.offsetY;
+            }
             var endpt = stuff.length-1;
             var item;
             for (var i = endpt; i >= 0; i--) {
@@ -274,7 +266,7 @@
             drawstuff();
         }
 
-        $(document).ready(function () {
+        function init() {
             canvas1 = document.getElementById("canvas");
             canvas1.onmousedown = function(){ return false};
             canvas1.addEventListener("dbclick", makenewitem, false);
@@ -294,9 +286,18 @@
             stuff.push(circ1);
             stuff.push(s1);
             stuff.push(heart1);
-            drawstuff();            
-        });
+            drawstuff();  
+        }
 
     </script>
+
+    <title></title>
+</head>
+<body onload="init();">
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <button onclick="saveasimage()">Open window with image (which you can save into image file)</button>
+    <br />
+    <button onclick="removeobj()">Remove last object moved</button>
+    <script src="Scripts/jquery-1.10.2.js"></script>    
 </body>
 </html>

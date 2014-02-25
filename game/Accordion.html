@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        ul.accordion li.collapsed * {
+            position: absolute;
+            left: -10000px;
+        }
+
+        ul.accordion li.collapsed h2, ul.accordion li.expanded h2,
+        ul.accordion li.collapsed h2 a:link,
+        ul.accordion li.collapsed h2 a:visited,
+        ul.accordion li.expanded h2 a:link,
+        ul.accordion li.expanded h2 a:visited {
+            position: static;
+            background-color: #8b0000;
+        }
+    </style>
+</head>
+<body>
+    <script src="core.js"></script>
+    <ul class="accordion">
+        <li id="archer"> 
+            <h2>
+                <a href="#archer">
+                    Jonathan Archer
+                </a>
+            </h2>
+            <p>Vessel registry: NX-01</p>
+            <p>Assumed command: 2151</p>
+            <div class="links">
+                <h3>Profiles</h3>
+                <ul>
+                    <li><a href="http://en.memory-alpha.org/?">Memory Alpha</a></li>
+                    <li><a href="http://www.es.wikipedia.org/">Wikipedia</a></li>
+                </ul>
+            </div>
+        </li>
+        <li id="pike">
+            <h2>
+                <a href="#pike">
+                    Jonathan Archer
+                </a>
+            </h2>
+            <p>Vessel registry: NX-01</p>
+            <p>Assumed command: 2151</p>
+            <div class="links">
+                <h3>Profiles</h3>
+                <ul>
+                    <li><a href="http://en.memory-alpha.org/?">Memory Alpha</a></li>
+                    <li><a href="http://www.es.wikipedia.org/">Wikipedia</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <script type="text/javascript">
+        var Accordion =
+        {
+            init: function () {
+                var accordions = Core.getElementsByClass("accordion");
+                for (var i = 0; i < accordions.length; i++) {
+                    var folds = accordions[i].childNodes;
+                    for (var j = 0; j < folds.length; j++) {
+                        if (folds[j].nodeType == 1) {
+                            Accordion.collapse(folds[j]);
+                            var foldLinks = folds[j].getElementsByTagName("a");
+                            var foldTitleLink = foldLinks[0];
+                            Core.addEventListener(foldTitleLink, "click", Accordion.clickListener);
+                            for (var k = 1; k < foldLinks.length; k++) {
+                                Core.addEventListener(foldLinks[k], "focus", Accordion.focusListener);
+                            }
+                        }
+                    }
+                    if (location.hash.length > 1) {
+                        var activeFold = document.getElementById(location.hash.substring(1));
+                        if (activeFold && activeFold.parentNode == accordions[i]) {
+                            Accordion.expand(activeFold);
+                        }
+                    }
+                }
+            },
+            collapseAll: function (accordion) {
+                var folds = accordion.childNodes;
+                for (var i = 0; i < folds.length; i++) {
+                    if (folds[i].nodeType == 1) {
+                        Accordion.collapse(folds[i]);
+                    }
+                }
+            },
+
+            collapse: function (fold) {
+                Core.removeClass(fold, "expanded");
+                Core.addClass(fold, "collapsed");
+            },
+
+
+            expand: function (fold) {
+                Accordion.collapseAll(fold.parentNode);
+                Core.removeClass(fold, "collapsed");
+                Core.addClass(fold, "expanded");
+            },
+
+            clickListener: function (event) {
+                var fold = this.parentNode.parentNode;
+                if (Core.hasClass(fold, "collapsed")) {
+                    Accordion.expand(fold);
+                }
+                else {
+                    Accordion.collapse(fold);
+                }
+                Core.preventDefault(event);
+            },
+
+            focusListener: function (event) {
+                var element = this;
+                while (element.parentNode) {
+                    if (Core.hasClass(element.parentNode, "accordion")) {
+                        Accordion.expand(element);
+                        return;
+                    }
+                    element = element.parentNode;
+                }
+            },
+
+
+        };
+
+        Core.start(Accordion);
+    </script>
+</body>
+</html>

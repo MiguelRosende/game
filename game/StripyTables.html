@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        tr.alt
+            {
+            background-color: #EEEEEE;
+            }
+    </style>
+</head>
+<body>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <table class="dataTable">
+        <thead>
+            <tr>
+                <th scope="col">
+                Web Luminary
+                </th>
+                <th scope="col">
+                Height
+                </th>
+                <th scope="col">
+                Hobbies
+                </th>
+                <th scope="col">
+                Digs microformats?
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                John Allsopp
+                </td>
+                <td class="number">
+                6’ 1”
+                </td>
+                <td>
+                Surf lifesaving, skateboarding, b-boying
+                </td>
+                <td class="yesno">
+                <img src="tick.gif" alt="Yes" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                John Allsopp
+                </td>
+                <td class="number">
+                6’ 1”
+                </td>
+                <td>
+                Surf lifesaving, skateboarding, b-boying
+                </td>
+                <td class="yesno">
+                <img src="tick.gif" alt="Yes" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                John Allsopp
+                </td>
+                <td class="number">
+                6’ 1”
+                </td>
+                <td>
+                Surf lifesaving, skateboarding, b-boying
+                </td>
+                <td class="yesno">
+                <img src="tick.gif" alt="Yes" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function(){
+            var rows = $(".dataTable > tbody > tr");
+
+            for (var i = 1; i < rows.length; i+= 2) {
+                rows.addClass("alt");
+            }
+        })
+    </script>
+</body>
+</html>

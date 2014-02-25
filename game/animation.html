@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        #robot {
+            width: 150px;
+            height: 150px;
+            background-image: url(robot.jpg); background-repeat: no-repeat; background-position: 0 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="robot"></div>
+    <button id="start">GO!!</button>
+    <button id="stop">Stop</button>
+    <script src="Core.js"></script>
+    <script type="text/javascript">
+        var Robot =
+            {
+                init: function () {
+                    Robot.div = document.getElementById("robot");
+                    Robot.frameHeight = 150;
+                    Robot.frames = 10;
+                    Robot.offsetY = 0;
+
+                    Robot.animate();
+
+                    var start = document.getElementById("start");
+                    Core.addEventListener(start, "click", Robot.clickStart);
+
+                    var stop = document.getElementById("stop");
+                    Core.addEventListener(stop, "click", Robot.clickStop);
+                },
+
+                animate: function () {
+                    Robot.offsetY -= Robot.frameHeight;
+
+                    if (Robot.offsetY <= -Robot.frameHeight * Robot.frames) {
+                        Robot.offsetY = 0;
+                    }
+
+                    Robot.div.style.backgroundPosition =
+                        "0 " + Robot.offsetY + "px";
+                    Robot.timer = setTimeout(Robot.animate, 75);
+                },
+
+                clickStart: function () {
+                    Robot.timer = setTimeout(Robot.animate, 75);
+                },
+
+                clickStop: function () {
+                    if (Robot.timer) {
+                        clearTimeout(Robot.timer);
+                    }
+                },
+            };
+
+        Core.start(Robot);
+
+    </script>
+</body>
+</html>

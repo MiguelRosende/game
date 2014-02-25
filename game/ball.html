@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        #soccerBall {
+            background-image: url(soccerball.png);
+            background-repeat: no-repeat;
+            height: 125px;
+            left: 0;
+            margin-top: 25px;
+            position: absolute;
+            top: 0;
+            width: 125px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="grass">
+        <div id="soccerBall"></div>
+    </div>
+    <script src="Core.js"></script>
+    <script type?="text/javascript">
+        var SoccerBall =
+            {
+                init: function () {
+                    SoccerBall.frameRate = 25;
+                    SoccerBall.deceleration = 10;
+                    SoccerBall.div = document.getElementById("soccerBall");
+                    SoccerBall.targetX = 600;
+                    SoccerBall.targetY = 250;
+                    SoccerBall.originX = parseInt(Core.getComputedStyle(SoccerBall.div, "left"), 10);
+                    SoccerBall.originY = parseInt(Core.getComputedStyle(SoccerBall.div, "top"), 10);                    
+                    SoccerBall.x = SoccerBall.originX;
+                    SoccerBall.y = SoccerBall.originY;
+                    SoccerBall.animate();
+                },
+
+                animate: function () {
+                    SoccerBall.x += (SoccerBall.targetX - SoccerBall.x) / SoccerBall.deceleration;
+                    SoccerBall.y += (SoccerBall.targetY - SoccerBall.y) / SoccerBall.deceleration;
+
+                    if ((SoccerBall.targetX > SoccerBall.originX && Math.round(SoccerBall.x) >= SoccerBall.targetX) ||
+                        (SoccerBall.targetX < SoccerBall.originX && Math.round(SoccerBall.x) <= SoccerBall.targetX)) {
+                        SoccerBall.x = SoccerBall.targetX;
+                        SoccerBall.y = SoccerBall.targetY;
+                    }
+                    else {
+                        setTimeout(SoccerBall.animate, 1000 / SoccerBall.frameRate);
+                    }
+                    SoccerBall.div.style.left = Math.round(SoccerBall.x) + "px";
+                    SoccerBall.div.style.top = Math.round(SoccerBall.y) + "px";
+                },
+            };
+        Core.start(SoccerBall);
+    </script>
+</body>
+</html>
