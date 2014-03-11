@@ -7,18 +7,53 @@
     <canvas id="novel" width="1200" height="600" style="border:dotted"></canvas>
     <script src="Scripts/jquery-1.10.2.js"></script>
     <script type="text/javascript">
-        var novel = document.getElementById("novel");
-        var ctx = novel.getContext("2d");
+        
         ctx.strokeRect(1, 1, 200, 100);
-        ctx.font = "20px sans-serif";
-        var text = ctx.fillText("yes", 80, 35);
-        var text1 = ctx.fillText("no", 80, 65);
-        novel.onmouseover = function () {
-            if (text.onmouseover) {
-                ctx.strokeRect(50, 35, 150, 100);
+        function text(stringT, x, y) {
+            this.x = x;
+            this.y = y;
+            this.text = stringT;
+            this.render = renderText;
+            this.position = { pageX: 0, pageY: 0 };
+                        
+            
+        }
+
+        function renderText() {
+            ctx.font = "15px sans-serif";
+            ctx.fill = "red";
+            ctx.fillText(text, x, y);
+        }
+
+        function textS(stringT, x, y) {
+            this.x = x;
+            this.y = y;
+            this.text = stringT;
+            this.render = renderText;
+            this.position = { pageX: 0, pageY: 0 };
+        }
+
+
+        var menu = [text, textS];
+
+        function renderAll() {
+            for (var i = 0; i < menu.length; i++) {
+                menu[i].render();
             }
         }
-        
+
+        novel.onload = function () {
+            var novel = document.getElementById("novel");
+            var ctx = novel.getContext("2d");
+            var t1 = new text("capaz tengas razón", 55, 35);
+            var t2 = new textS("estas equivocada", 55, 65);
+        }
+
+        novel.onmouseover = function () {
+            if (true) {
+
+            }
+        }
 
     </script>
 </body>
