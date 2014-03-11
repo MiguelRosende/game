@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <canvas id="novel" width="1200" height="600" style="border:dotted"></canvas>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        var novel = document.getElementById("novel");
+        var ctx = novel.getContext("2d");
+        ctx.strokeRect(1, 1, 200, 100);
+        ctx.font = "20px sans-serif";
+        var text = ctx.fillText("yes", 80, 35);
+        var text1 = ctx.fillText("no", 80, 65);
+        novel.onmouseover = function () {
+            if (text.onmouseover) {
+                ctx.strokeRect(50, 35, 150, 100);
+            }
+        }
+        
+
+    </script>
+</body>
+</html>

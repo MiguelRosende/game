@@ -68,6 +68,21 @@
     <Content Include="collision game sample.html" />
     <Content Include="CollageJS.html" />
     <Content Include="animatedAccordion.html" />
+    <Content Include="accel ball.html" />
+    <Content Include="novel\beach2.jpg" />
+    <Content Include="novel\continue.png" />
+    <Content Include="novel\Copy of game.html" />
+    <Content Include="novel\Core.js" />
+    <Content Include="novel\exit.png" />
+    <Content Include="novel\game.html" />
+    <Content Include="novel\introscreen.jpg" />
+    <Content Include="novel\Nanami.png" />
+    <Content Include="novel\Nanami_%2818%29.png" />
+    <Content Include="novel\Nanami_%2819%29.png" />
+    <Content Include="novel\Nanami_%2820%29.png" />
+    <Content Include="novel\Nanami_%2821%29.png" />
+    <Content Include="novel\new_game.png" />
+    <Content Include="novel\VectorBeachWallpapers.jpg" />
     <Content Include="robot.jpg" />
     <Content Include="soccerball.png" />
     <Content Include="StripyTablesjsc.html" />
@@ -89,6 +104,7 @@
     <Content Include="StripyTables.html" />
     <Content Include="timestests.html" />
     <Content Include="Tooltips.html" />
+    <Content Include="novel\title.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

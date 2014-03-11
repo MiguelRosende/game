@@ -66,11 +66,45 @@
                 </ul>
             </div>
         </li>
+        <li id="Li1">
+            <h2>
+                <a href="#pike">
+                    Jonathan Archer
+                </a>
+            </h2>
+            <p>Vessel registry: NX-01</p>
+            <p>Assumed command: 2151</p>
+            <div class="links">
+                <h3>Profiles</h3>
+                <ul>
+                    <li><a href="http://en.memory-alpha.org/?">Memory Alpha</a></li>
+                    <li><a href="http://www.es.wikipedia.org/">Wikipedia</a></li>
+                </ul>
+            </div>
+        </li>
+        <li id="Li2">
+            <h2>
+                <a href="#pike">
+                    Jonathan Archer
+                </a>
+            </h2>
+            <p>Vessel registry: NX-01</p>
+            <p>Assumed command: 2151</p>
+            <div class="links">
+                <h3>Profiles</h3>
+                <ul>
+                    <li><a href="http://en.memory-alpha.org/?">Memory Alpha</a></li>
+                    <li><a href="http://www.es.wikipedia.org/">Wikipedia</a></li>
+                </ul>
+            </div>
+        </li>
     </ul>
     <script type="text/javascript">
         var Accordion =
         {
             init: function () {
+                Accordion.frameRate = 25;
+                Accordion.duration = 0.5;
                 var accordions = Core.getElementsByClass("accordion");
                 for (var i = 0; i < accordions.length; i++) {
                     var folds = accordions[i].childNodes;
@@ -116,15 +150,67 @@
             },
 
             collapse: function (fold) {
-                Core.removeClass(fold, "expanded");
-                Core.addClass(fold, "collapsed");
+                var content = fold._accordionContent;
+                content.height = parseInt(content.style.height, 10);
+                content._increment = content._height /
+                    (Accordion.frameRate * Accordion.duration);
+
+                if (Core.hasClass(fold, "expanded")) {
+                    clearTimeout(fold._accordionContent._timer);
+                    Accordion.collapseAnimate(fold._accordionContent);
+                }
+                else {
+                    Core.addClass(fold, "collapsed");
+                }
+            },
+
+            collapseAnimate: function (content) {
+                var newHeight = content._height - content._increment;
+
+                if (newHeight < 0) {
+                    newHeight = 0;
+                    Core.removeClass(content.parentNode, "expanded");
+                    Core.addClass(content.parentNode, "collapsed");
+                }
+                else {
+                    content._timer = setTimeout(function () {
+                        Accordion.collapseAnimate(content);
+                    }, 1000 / Accordion.frameRate);
+                }
+                content._height = newHeight;
+                content.style.height = Math.round(newHeight) + "px";
             },
 
 
             expand: function (fold) {
+                var content = fold._accordionContent;
+
                 Accordion.collapseAll(fold.parentNode);
-                Core.removeClass(fold, "collapsed");
-                Core.addClass(fold, "expanded");
+                if (!Core.hasClass(fold, "expanded")) {
+                    content.style.height = "0";
+                    content._height = 0;
+                    Core.removeClass(fold, "collapsed");
+                    Core.addClass(fold, "expanded");
+                    content._increment = content.scrollHeight /
+                    (Accordion.frameRate * Accordion.duration);
+                    Accordion.expandAnimate(content);
+                }
+            },
+
+            expandAnimate: function (content) {
+                var newHeight = content._height + content._increment;
+
+                if (newHeight > content.scrollHeight) {
+                    newHeight = content.scrollHeight;
+                }
+                else {
+                    content._timer = setTimeout(function () {
+                        Accordion.expandAnimate(content);
+                    }, 1000 / Accordion.frameRate);
+                }
+                content._height = newHeight;
+                content.style.height = Math.round(newHeight) + "px";
+                content.scrollTop = 0;
             },
 
             clickListener: function (event) {

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        img.menu {
+            display: block;
+            margin-left:auto;
+            margin-right:auto;
+            margin-bottom: 30px;
+        }
+        #intro {
+            display: block;
+            margin-left:auto;
+            margin-right:auto;
+        }
+    </style>
+</head>
+<body>
+    <img id="intro" src="introscreen.jpg" />
+    <div id="images">
+        <a href="game.html"><img src="new_game.png" id="newg" class="menu" onmouseover="newGameResize(this)" onmouseout="newGameOS(this)"/></a>
+        <br />
+        <img src="continue.png" id="continue" class="menu" onmouseover="continueResize(this)" onmouseout="continueOS(this)"/>
+        <br />
+        <a href="#" onclick="closeWindow()" ><img src="exit.png" id="exit" class="menu" onmouseover="exitResize(this)" onmouseout="exitOS(this)"/></a>
+    </div>
+    <script type="text/javascript">
+
+        function closeWindow() {
+            close();
+        }
+
+        function newGameResize(ima) {
+            ima.style.width = "355px";
+            ima.style.height = "88px";
+            ima.style.marginBottom = "15px";
+        };
+        
+        function newGameOS(ima) {
+            ima.style.width = "296px";
+            ima.style.height = "73px";
+            ima.style.marginBottom = "30px";
+        };
+
+        function continueResize(ima) {
+            ima.style.width = "322px";
+            ima.style.height = "77px";
+            ima.style.marginBottom = "17px";
+        };
+
+        function continueOS(ima) {
+            ima.style.width = "268px";
+            ima.style.height = "64px";
+            ima.style.marginBottom = "30px";
+        };
+
+        function exitResize(ima) {
+            ima.style.width = "158px";
+            ima.style.height = "72px";
+        };
+        function exitOS(ima) {
+            ima.style.width = "132px";
+            ima.style.height = "60px";
+        }
+    </script>
+</body>
+</html>

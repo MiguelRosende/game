@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <canvas id="novel" width="1200" height="600" style="border:dotted"></canvas>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        var novel = document.getElementById("novel");
+        var ctx = novel.getContext("2d");
+        var bgd = new Image();
+        bgd.src = "http://localhost:58351/novel/VectorBeachWallpapers.jpg";
+        var ima = new Image();
+        ima.src = "http://localhost:58351/novel/Nanami.png";
+        ima.onload = function () {
+            ctx.drawImage(bgd, 0, 0, 1200, 600);
+            ctx.drawImage(ima, 400, 120);
+            ctx.strokeRect(430, 400, 400, 200);
+            ctx.font = "20px sans-serif";
+            ctx.fillStyle = "white";
+            ctx.fillText("hoy es un lindo dia", 440, 420);
+        }
+
+        novel.onclick = function () {
+            switch(ima.src){
+                case ima.src = "http://localhost:58351/novel/Nanami.png":
+                    ima.onload = function () {
+                        ctx.clearRect(0, 0, 1200, 600);
+                        ctx.drawImage(bgd, 0, 0, 1200, 600);
+                        ctx.drawImage(ima, 400, 120);
+                        ctx.strokeRect(430, 400, 400, 200);
+                        ctx.font = "20px sans-serif";
+                        ctx.fillStyle = "white";
+                        ctx.fillText("NO", 440, 420);
+                    }
+                    ima.src = "http://localhost:58351/novel/Nanami_(18).png";
+                    break;
+                case ima.src = "http://localhost:58351/novel/Nanami_(18).png":
+                    ima.onload = function () {
+                        ctx.clearRect(0, 0, 1200, 600);
+                        ctx.drawImage(bgd, 0, 0, 1200, 600);
+                        ctx.drawImage(ima, 400, 120);
+                        ctx.strokeRect(430, 400, 400, 200);
+                        ctx.font = "20px sans-serif";
+                        ctx.fillStyle = "white";
+                        ctx.fillText("porqué no?", 440, 420);
+                    }
+                    ima.src = "http://localhost:58351/novel/Nanami_(19).png";
+                    break;
+                case ima.src = "http://localhost:58351/novel/Nanami_(19).png":
+                    ima.onload = function () {
+                        ctx.clearRect(0, 0, 1200, 600);
+                        ctx.drawImage(bgd, 0, 0, 1200, 600);
+                        ctx.drawImage(ima, 400, 120);
+                        ctx.strokeRect(430, 400, 400, 200);
+                        ctx.strokeRect(835, 400, 100, 150);
+                        ctx.font = "20px sans-serif";
+                        ctx.fillStyle = "white";
+                        ctx.fillText("porque yo lo digo", 440, 420);
+                    }
+                    bgd.src = "http://localhost:58351/novel/beach2.jpg";
+                    ima.src = "http://localhost:58351/novel/Nanami_(20).png";
+                    break;
+                default:
+                    ima.onload = function () {
+                        ctx.clearRect(0, 0, 1200, 600);
+                        ctx.drawImage(bgd, 0, 0, 1200, 600);
+                        ctx.drawImage(ima, 400, 120);
+                        ctx.strokeRect(430, 400, 400, 200);
+                        ctx.font = "20px sans-serif";
+                        ctx.fillStyle = "white";
+                        ctx.fillText("hoy es un lindo día", 440, 420);
+                    }
+                    bgd.src = "http://localhost:58351/novel/VectorBeachWallpapers.jpg";
+                    ima.src = "http://localhost:58351/novel/Nanami.png";
+                    break;
+            };
+        }
+    </script>
+</body>
+</html>
