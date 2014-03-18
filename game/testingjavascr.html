@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app>
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <script src="todo.js"></script>
+    <link href="todo.css" rel="stylesheet" />
+</head>
+<body>
+    <h2>Pendientes hoy</h2>
+    <div ng-controller="TodoCtrl">
+        <span>{{remaining()}} de {{todos.length}} pendientes</span>
+        [ <a href="" ng-click="archive() ">archivo</a> ]
+        <ul class="unstyled">
+            <li ng-repeat="todo in todos">
+                <input type="checkbox" ng-model="todo.done" />
+                <span class="done-{{todo.done}}">{{todo.text}}</span>
+            </li>
+        </ul>
+        <form ng-submit="addTodo()">
+            <input type="type" ng-model="todoText" size="30" placeholder="añadir nuevo pendiente aqui"/>
+            <input type="submit" class="btn-primary" value="add" />
+        </form>
+        <button class="btn-large" ng-click="removeTodo()">clear completed</button>
+    </div>
+</body>
+</html>

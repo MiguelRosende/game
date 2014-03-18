@@ -9,51 +9,42 @@
     <script type="text/javascript">
         
         ctx.strokeRect(1, 1, 200, 100);
-        function text(stringT, x, y) {
+        function text(ctx, txt, x, y, color) {
             this.x = x;
             this.y = y;
-            this.text = stringT;
-            this.render = renderText;
-            this.position = { pageX: 0, pageY: 0 };
-                        
-            
+            this.text = txt;
+            this.color = color;
+            this.ctx = ctx;
+            this.setText = function () {
+                this.ctx.fillstyle = color;
+                this.ctx.filltext(txt, x, y);
+            };
         }
 
-        function renderText() {
-            ctx.font = "15px sans-serif";
-            ctx.fill = "red";
-            ctx.fillText(text, x, y);
-        }
-
-        function textS(stringT, x, y) {
+        function textS(ctx, txt, x, y, color) {
             this.x = x;
             this.y = y;
-            this.text = stringT;
-            this.render = renderText;
-            this.position = { pageX: 0, pageY: 0 };
+            this.text = txt;
+            this.color = color;
+            this.ctx = ctx;
+            this.setText = function () {
+                this.ctx.fillstyle = color;
+                this.ctx.filltext(txt, x, y);
+            };
         }
 
+        var texts = [
+            new text(ctx, "estas loca", 20, 40, "red"),
+            new textS(ctx, "si tu lo dices", 20, 60, "blue")
+        ];
 
-        var menu = [text, textS];
-
-        function renderAll() {
-            for (var i = 0; i < menu.length; i++) {
-                menu[i].render();
+        $(function () {
+            var canvas = $("canvas");
+            var ctx = canvas[0].getContext("2d");
+            for (var i = 0; i < texts.length; i++) {
+                text[i].setText();
             }
-        }
-
-        novel.onload = function () {
-            var novel = document.getElementById("novel");
-            var ctx = novel.getContext("2d");
-            var t1 = new text("capaz tengas razón", 55, 35);
-            var t2 = new textS("estas equivocada", 55, 65);
-        }
-
-        novel.onmouseover = function () {
-            if (true) {
-
-            }
-        }
+        })
 
     </script>
 </body>
